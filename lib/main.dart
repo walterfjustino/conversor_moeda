@@ -40,8 +40,26 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
 
-  double dolar;
+  //CONTROLADORES
+  final realController = TextEditingController(); //UTILIZA-SE O FINAL, QUANDO O CONTROLADOR NÃO IRÁ MUDAR EM NENHUM MOMENTO
+  final dolarController = TextEditingController();
+  final euroController = TextEditingController();
+
+
+
+  double dolar; //DECLARANDO VARIAVEIS
   double euro;
+
+  //FUNÇÕES
+  void _realChanged(String text){
+    print(text);
+  }
+  void _dolarChanged(String text){
+    print(text);
+  }
+  void _euroChanged(String text){
+    print(text);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -84,11 +102,11 @@ class _HomeState extends State<Home> {
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: <Widget>[
                         Icon(Icons.monetization_on, size: 150.0, color: Colors.amber),
-                        buildTextField("Reais", "R\$"),
+                        buildTextField("Reais", "R\$", realController, _realChanged),   //CHAMADA DA FUNÇÃO
                         Divider(),
-                        buildTextField("Dólares", "US\$"),
+                        buildTextField("Dólares", "US\$", dolarController, _dolarChanged), //CHAMADA DA FUNÇÃO
                         Divider(),
-                        buildTextField("Euros", "€"),
+                        buildTextField("Euros", "€", euroController, _euroChanged),      //CHAMADA DA FUNÇÃO
                     ],
                     ),
                   );
@@ -99,10 +117,11 @@ class _HomeState extends State<Home> {
   }
 }
 
-Widget buildTextField(String label, String prefix){
+Widget buildTextField(String label, String prefix, TextEditingController c, Function f){ //FUNÇÃO
   return TextField(
+    controller: c,
     decoration: InputDecoration(
-      labelText: "Euros",
+      labelText: label,
       labelStyle: TextStyle(color: Colors.amber),
       border: OutlineInputBorder(),
       prefixText: prefix,
@@ -110,6 +129,8 @@ Widget buildTextField(String label, String prefix){
     style: TextStyle(
       color: Colors.amber, fontSize: 25.0
     ),
+    onChanged: f,
+    keyboardType: TextInputType.number,
   );
 
 }
