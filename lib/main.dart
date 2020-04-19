@@ -45,20 +45,24 @@ class _HomeState extends State<Home> {
   final dolarController = TextEditingController();
   final euroController = TextEditingController();
 
-
-
   double dolar; //DECLARANDO VARIAVEIS
   double euro;
 
   //FUNÇÕES
   void _realChanged(String text){
-    print(text);
+    double real = double.parse(text); //TRANSFORMANDO TEXTO DE STRING PARA DOUBLE
+    dolarController.text = (real/dolar).toStringAsFixed(2); // CONVERTENDO REAL/DOLAR
+    euroController.text = (real/euro).toStringAsFixed(2);   // CONVERTENDO REAL/EURO
   }
   void _dolarChanged(String text){
-    print(text);
+    double dolar = double.parse(text); //TRANSFORMANDO TEXTO DE STRING PARA DOUBLE
+    realController.text = (dolar * this.dolar).toStringAsFixed(2); // CONVERTENDO DOLAR/REAL
+    euroController.text = (dolar * this.dolar / euro).toStringAsFixed(2);   // CONVERTENDO VALOR PARA REAL E DIVIDINDO POR EURO
   }
   void _euroChanged(String text){
-    print(text);
+    double euro = double.parse(text);
+    realController.text = (euro * this.euro).toStringAsFixed(2); // CONVERTENDO EURO/REAL
+    dolarController.text = (euro * this.euro / dolar).toStringAsFixed(2); //CONVERTENDO VALOR PARA REAL E DIVIDINDO POR DOLAR
   }
 
   @override
