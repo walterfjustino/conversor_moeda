@@ -49,17 +49,36 @@ class _HomeState extends State<Home> {
   double euro;
 
   //FUNÇÕES
+
+  void _clearAll(){ //FUNÇÃO QUE RESETA TODOS OS CAMPOS
+    realController.text = "";
+    dolarController.text = "";
+    euroController.text = "";
+  }
+
   void _realChanged(String text){
+    if(text.isEmpty){
+      _clearAll();
+      return;
+    }
     double real = double.parse(text); //TRANSFORMANDO TEXTO DE STRING PARA DOUBLE
     dolarController.text = (real/dolar).toStringAsFixed(2); // CONVERTENDO REAL/DOLAR
     euroController.text = (real/euro).toStringAsFixed(2);   // CONVERTENDO REAL/EURO
   }
   void _dolarChanged(String text){
+    if(text.isEmpty){
+      _clearAll();
+      return;
+    }
     double dolar = double.parse(text); //TRANSFORMANDO TEXTO DE STRING PARA DOUBLE
     realController.text = (dolar * this.dolar).toStringAsFixed(2); // CONVERTENDO DOLAR/REAL
     euroController.text = (dolar * this.dolar / euro).toStringAsFixed(2);   // CONVERTENDO VALOR PARA REAL E DIVIDINDO POR EURO
   }
   void _euroChanged(String text){
+    if(text.isEmpty){
+      _clearAll();
+      return;
+    }
     double euro = double.parse(text);
     realController.text = (euro * this.euro).toStringAsFixed(2); // CONVERTENDO EURO/REAL
     dolarController.text = (euro * this.euro / dolar).toStringAsFixed(2); //CONVERTENDO VALOR PARA REAL E DIVIDINDO POR DOLAR
@@ -74,6 +93,12 @@ class _HomeState extends State<Home> {
         // PARA IDENTIFICAR UM CARACTERE ESPECIAL COMO TEXT COLOCAR UMA \(BARRA INVERTIDA) ANTES
         backgroundColor: Colors.amber,
         centerTitle: true,
+        actions: <Widget>[
+          IconButton(
+              icon: Icon (Icons.refresh),
+              onPressed: _clearAll
+          ),
+        ],
       ),
       body: FutureBuilder<Map>( //ESPECIFICA O FUTURO
           future: getData(), // SOLICITA OS DADOS E RETORNA NO FUTURO
@@ -133,8 +158,8 @@ Widget buildTextField(String label, String prefix, TextEditingController c, Func
     style: TextStyle(
       color: Colors.amber, fontSize: 25.0
     ),
-    onChanged: f,
-    keyboardType: TextInputType.number,
+    onChanged: f,                                                  //numberWithOptions(decimal: true)
+    keyboardType: TextInputType.numberWithOptions(decimal: true),  // FAZ COM QUE POSSA DIGITAR NUMEROS DECIMAIS NO IOS
   );
 
 }
